@@ -136,6 +136,11 @@
       <xsl:apply-templates select="loads/command_line"/>
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
+
+    <xsl:text> Cmdline:        </xsl:text>
+    <xsl:value-of select="SystemInfo/cmdlineInfo/cmdline"/>
+    <xsl:text>&#10;</xsl:text>
+
     <!-- Generate a summary report for all measurement profiles -->
     <xsl:apply-templates select="Measurements/Profile"/>
    <xsl:text>  ===================================================================&#10;</xsl:text>
