@@ -22,6 +22,7 @@ Requires:	rteval-common => %{version}-%{release}
 Requires:	sysstat
 Requires:	bzip2
 Requires:       kernel-headers
+Requires:       sos
 BuildArch:	noarch
 Obsoletes:	rteval <= 1.7
 Requires:	numactl
