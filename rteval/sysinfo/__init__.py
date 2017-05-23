@@ -32,9 +32,10 @@ from cputopology import CPUtopology
 from memory import MemoryInfo
 from osinfo import OSInfo
 from network import NetworkInfo
+from cmdline import cmdlineInfo
 import dmi
 
-class SystemInfo(KernelInfo, SystemServices, dmi.DMIinfo, CPUtopology, MemoryInfo, OSInfo, NetworkInfo):
+class SystemInfo(KernelInfo, SystemServices, dmi.DMIinfo, CPUtopology, MemoryInfo, OSInfo, NetworkInfo, cmdlineInfo):
     def __init__(self, config, logger=None):
         self.__logger = logger
         KernelInfo.__init__(self, logger=logger)
@@ -42,6 +43,7 @@ class SystemInfo(KernelInfo, SystemServices, dmi.DMIinfo, CPUtopology, MemoryInf
         dmi.DMIinfo.__init__(self, config, logger=logger)
         CPUtopology.__init__(self)
         OSInfo.__init__(self, logger=logger)
+        cmdlineInfo.__init__(self, logger=logger)
 
         # Parse initial DMI decoding errors
         dmi.ProcessWarnings()
@@ -62,6 +64,7 @@ class SystemInfo(KernelInfo, SystemServices, dmi.DMIinfo, CPUtopology, MemoryInf
         report_n.addChild(CPUtopology.MakeReport(self))
         report_n.addChild(MemoryInfo.MakeReport(self))
         report_n.addChild(dmi.DMIinfo.MakeReport(self))
+        report_n.addChild(cmdlineInfo.MakeReport(self))
 
         return report_n
 
