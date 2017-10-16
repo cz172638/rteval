@@ -150,14 +150,10 @@ class Hackbench(CommandLineLoad):
             except OSError, e:
                 if e.errno != errno.ENOMEM:
                     raise e
-                # Catch out-of-memory errors and wait a bit to (hopefully)
-                # ease memory pressure
-                self._log(Log.DEBUG, "ERROR: %s, sleeping for %f seconds" % (e.strerror, self.__err_sleep))
-                time.sleep(self.__err_sleep)
-                if self.__err_sleep < 60.0:
-                    self.__err_sleep *= 2.0
-                if self.__err_sleep > 60.0:
-                    self.__err_sleep = 60.0
+                # Exit gracefully without a traceback for out-of-memory errors
+                self._log(Log.DEBUG, "ERROR, ENOMEM while trying to launch hackbench")
+                print("out-of-memory trying to launch hackbench, exiting")
+                sys.exit(-1)
 
 
     def WorkloadAlive(self):
