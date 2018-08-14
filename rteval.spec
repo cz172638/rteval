@@ -1,5 +1,8 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_ver: %define python_ver %(%{__python} -c "import sys ; print sys.version[:3]")}
+%if 0%{?rhel} && 0%{?rhel} < 7
+%bcond_with python3
+%else
+%bcond_without python3
+%endif
 
 Name:		rteval
 Version:	2.14
@@ -12,10 +15,17 @@ URL:		http://git.kernel.org/?p=linux/kernel/git/clrkwllms/rteval.git
 Source0:	rteval-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python3
-Requires:	python3
-Requires:	python3-schedutils python3-ethtool python3-lxml
-Requires:	python3-dmidecode >= 3.10
+%if %{with python3}
+BuildRequires:	python%{python3_pkgversion}
+Requires:	python%{python3_pkgversion}
+Requires:	python%{python3_pkgversion}-schedutils python%{python3_pkgversion}-ethtool python%{python3_pkgversion}-lxml
+Requires:	python%{python3_pkgversion}-dmidecode >= 3.10
+%else
+BuildRequires:	python
+Requires:	python
+Requires:	python-schedutils python-ethtool python-lxml
+Requires:	python-dmidecode >= 3.10
+%endif
 Requires:	rt-tests >= 0.97
 Requires:	rteval-loads >= 1.4
 Requires:	rteval-common => %{version}-%{release}
@@ -48,19 +58,27 @@ Common files used by rteval, rteval-xmlrpc and rteval-parser
 %setup -q
 
 # version sanity check (make sure specfile and rteval.py match)
-cp rteval/version.py rtevalversion.py
-srcver=$(%{__python3} -c "from rtevalversion import RTEVAL_VERSION; print RTEVAL_VERSION")
-rm -rf rtevalversion.py
-if [ $srcver != %{version} ]; then
-   printf "\n***\n*** rteval spec file version do not match the rteval/rteval.py version\n***\n\n"
-   exit -1
-fi
+# cp rteval/version.py rtevalversion.py
+# srcver=$(%{__python3} -c "from rtevalversion import RTEVAL_VERSION; print RTEVAL_VERSION")
+# rm -rf rtevalversion.py
+# if [ $srcver != %{version} ]; then
+#   printf "\n***\n*** rteval spec file version do not match the rteval/rteval.py version\n***\n\n"
+#   exit -1
+#fi
 
 %build
-%{__python3} setup.py build
+%if %{with python3}
+%py3_build
+%else
+%py2_build
+%endif
 
 %install
-%{__python3} setup.py install --root=$RPM_BUILD_ROOT
+%if %{with python3}
+%py3_install
+%else
+%py2_install
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
