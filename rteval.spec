@@ -49,7 +49,7 @@ Common files used by rteval, rteval-xmlrpc and rteval-parser
 
 # version sanity check (make sure specfile and rteval.py match)
 cp rteval/version.py rtevalversion.py
-srcver=$(%{__python} -c "from rtevalversion import RTEVAL_VERSION; print RTEVAL_VERSION")
+srcver=$(%{__python3} -c "from rtevalversion import RTEVAL_VERSION; print RTEVAL_VERSION")
 rm -rf rtevalversion.py
 if [ $srcver != %{version} ]; then
    printf "\n***\n*** rteval spec file version do not match the rteval/rteval.py version\n***\n\n"
@@ -57,10 +57,10 @@ if [ $srcver != %{version} ]; then
 fi
 
 %build
-%{__python} setup.py build
+%{__python3} setup.py build
 
 %install
-%{__python} setup.py install --root=$RPM_BUILD_ROOT
+%{__python3} setup.py install --root=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,30 +68,30 @@ rm -rf $RPM_BUILD_ROOT
 %files common
 %doc COPYING
 %dir %{_datadir}/%{name}
-%{python_sitelib}/rteval/rtevalclient.py*
-%{python_sitelib}/rteval/rtevalConfig.py*
-%{python_sitelib}/rteval/rtevalXMLRPC.py*
-%{python_sitelib}/rteval/version.py*
-%{python_sitelib}/rteval/Log.py*
-%{python_sitelib}/rteval/misc.py*
-%{python_sitelib}/rteval/systopology.py*
+%{python3_sitelib}/rteval/rtevalclient.py*
+%{python3_sitelib}/rteval/rtevalConfig.py*
+%{python3_sitelib}/rteval/rtevalXMLRPC.py*
+%{python3_sitelib}/rteval/version.py*
+%{python3_sitelib}/rteval/Log.py*
+%{python3_sitelib}/rteval/misc.py*
+%{python3_sitelib}/rteval/systopology.py*
 
 %files
 %defattr(-,root,root,-)
 %if "%{python_ver}" >= "2.5"
-%{python_sitelib}/*.egg-info
+%{python3_sitelib}/*.egg-info
 %endif
 
 %doc COPYING README doc/rteval.txt
 %{_mandir}/man8/rteval.8.gz
 %config(noreplace) %{_sysconfdir}/rteval.conf
 %{_datadir}/%{name}/rteval_*.xsl
-%{python_sitelib}/rteval/__init__.py*
-%{python_sitelib}/rteval/rtevalMailer.py*
-%{python_sitelib}/rteval/rtevalReport.py*
-%{python_sitelib}/rteval/xmlout.py*
-%{python_sitelib}/rteval/modules
-%{python_sitelib}/rteval/sysinfo
+%{python3_sitelib}/rteval/__init__.py*
+%{python3_sitelib}/rteval/rtevalMailer.py*
+%{python3_sitelib}/rteval/rtevalReport.py*
+%{python3_sitelib}/rteval/xmlout.py*
+%{python3_sitelib}/rteval/modules
+%{python3_sitelib}/rteval/sysinfo
 /usr/bin/rteval
 
 %changelog
