@@ -93,23 +93,27 @@ rm -rf $RPM_BUILD_ROOT
 %{python3_sitelib}/rteval/Log.py*
 %{python3_sitelib}/rteval/misc.py*
 %{python3_sitelib}/rteval/systopology.py*
+%{python3_sitelib}/rteval/__pycache__/rtevalclient*
+%{python3_sitelib}/rteval/__pycache__/rtevalConfig*
+%{python3_sitelib}/rteval/__pycache__/rtevalXMLRPC*
+%{python3_sitelib}/rteval/__pycache__/version*
+%{python3_sitelib}/rteval/__pycache__/Log*
+%{python3_sitelib}/rteval/__pycache__/misc*
+%{python3_sitelib}/rteval/__pycache__/systopology*
 
 %files
-%defattr(-,root,root,-)
-%if "%{python_ver}" >= "2.5"
-%{python3_sitelib}/*.egg-info
-%endif
-
 %doc COPYING README doc/rteval.txt
 %{_mandir}/man8/rteval.8.gz
 %config(noreplace) %{_sysconfdir}/rteval.conf
 %{_datadir}/%{name}/rteval_*.xsl
+%{python3_sitelib}/*.egg-info
 %{python3_sitelib}/rteval/__init__.py*
 %{python3_sitelib}/rteval/rtevalMailer.py*
 %{python3_sitelib}/rteval/rtevalReport.py*
 %{python3_sitelib}/rteval/xmlout.py*
 %{python3_sitelib}/rteval/modules
 %{python3_sitelib}/rteval/sysinfo
+%{python3_sitelib}/rteval/__pycache__/*
 /usr/bin/rteval
 
 %changelog
