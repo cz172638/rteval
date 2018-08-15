@@ -26,10 +26,10 @@ Requires:	python
 Requires:	python-schedutils python-ethtool python-lxml
 Requires:	python-dmidecode >= 3.10
 %endif
-%if !%{rhel}
-Requires:	realtime-tests >= 0.97
-%else
+%if 0%{?rhel}
 Requires:	rt-tests >= 0.97
+%else
+Requires:	realtime-tests >= 0.97
 %endif
 Requires:	rteval-loads >= 1.4
 Requires:	rteval-common => %{version}-%{release}
