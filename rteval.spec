@@ -16,12 +16,12 @@ Source0:	rteval-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{with python3}
-BuildRequires:	python%{python3_pkgversion}
+BuildRequires:	python%{python3_pkgversion}-devel
 Requires:	python%{python3_pkgversion}
 Requires:	python%{python3_pkgversion}-schedutils python%{python3_pkgversion}-ethtool python%{python3_pkgversion}-lxml
 Requires:	python%{python3_pkgversion}-dmidecode >= 3.10
 %else
-BuildRequires:	python
+BuildRequires:	python-devel
 Requires:	python
 Requires:	python-schedutils python-ethtool python-lxml
 Requires:	python-dmidecode >= 3.10
